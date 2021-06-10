@@ -1,0 +1,45 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    ROOT: INFO
+
+spring:
+  application:
+    name: kafka-example
+  cloud:
+    stream:
+      bindings:
+        inputTopicMessage:
+          destination: queuing.message
+          group: queuingMessage
+          binder: kafka_ic_default
+        outputTopicMessage:
+          destination: queuing.message
+          binder: kafka_ic_default
+      binders:
+        kafka_ic_default:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    default:
+                      producer:
+                        compressionType: gzip
+                        configuration:
+                          max.request.size: 31457280
+                    binder:
+                      autoAddPartitions: true
+                      minPartitionCount: 1
+                      replicationFactor: 1
+                      serdeError: logAndContinue
+                      brokers: http://localhost:9092
+
+fixedDelay:
+  in:
+    milliseconds: 30000

@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    ROOT: INFO
+
+fixedDelay:
+  in:
+    milliseconds: 30000
